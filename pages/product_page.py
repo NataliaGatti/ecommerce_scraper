@@ -26,3 +26,18 @@ class ProductPage(BasePage):
   def click_next_button(self):
     next_button = (By.CSS_SELECTOR, '#next2')
     self.click(next_button)
+    
+  # Select a product
+  def select_product(self):
+    product_link = (By.CSS_SELECTOR, '.card-title a')
+    self.click(product_link)
+    
+  # Add the product from the page to the cart
+  def add_product_to_cart(self): 
+    add_to_cart_button = (By.LINK_TEXT, 'Add to cart')
+    self.click(add_to_cart_button)
+    
+  # Navigate to products cart
+  def navigate_to_products_cart(self):
+    cart_page_button = (By.ID, 'cartur')
+    self.click(cart_page_button)

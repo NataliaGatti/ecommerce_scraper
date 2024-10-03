@@ -19,3 +19,7 @@ class BasePage:
   
   def get_attribute(self, locator, attribute):
     return self.wait_for_element(locator).get_attribute(attribute)
+  
+  def send_keys(self, locator, keys):
+    element = self.wait_for_element(locator)
+    element.send_keys(keys)
