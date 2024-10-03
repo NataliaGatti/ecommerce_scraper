@@ -14,7 +14,7 @@ def setup_driver(driver):
   driver.quit()
 
 def test_scrape_products(setup_driver):
-  time.sleep(10)
+  time.sleep(2)
   product_page = ProductPage(setup_driver)
   
   all_products = []
@@ -27,7 +27,7 @@ def test_scrape_products(setup_driver):
       
       if _ < 1:
           product_page.click_next_button()
-          time.sleep(10)
+          time.sleep(2)
 
   # Build the txt
   with open("output/products_info.txt", "w") as f:
@@ -74,4 +74,32 @@ def test_buy_product(setup_driver):
   # Step 7: Verify the confirmation message
   confirmation_text = purchase_page.get_confirmation_text()
   assert 'Thank you for your purchase!' in confirmation_text
+  
+def test_remove_from_cart(setup_driver):
+  # Step 1: Navigate to the products page
+  product_page = ProductPage(setup_driver)
+  
+  # Step 2: Select a product and go to its page
+  product_page.select_product() 
+
+  # Step 3: Add the selected product to the cart
+  product_page.add_product_to_cart()
+  
+  # Step 4: Close the confirmation modal
+  time.sleep(2)
+  alert = setup_driver.switch_to.alert
+  alert.accept()
+  
+  # Step 5: Navigate to the cart
+  product_page.navigate_to_products_cart()
+
+  # Step 6: Remove a product from the list
+  cart_page = CartPage(setup_driver)
+  cart_page.remove_product_from_cart()
+  
+  # Step 7: Get the number of product from the new list
+  time.sleep(2)
+  cart_items = cart_page.get_cart_products()
+  assert len(cart_items) == 0
+
   
